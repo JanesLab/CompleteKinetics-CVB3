@@ -97,7 +97,7 @@ CVB3ODEEvalparser = inputParser;
    addOptional(CVB3ODEEvalparser,'RunCount',defaultRunCount,validPosNum);
    addOptional(CVB3ODEEvalparser,'UpperQuantile',defaultUpperQuantile,validPercent);
    addOptional(CVB3ODEEvalparser,'LowerQuantile',defaultLowerQuantile,validPercent);
-   addOptional(CVB3ODEEvalparser,'CV',defaultCV,validPosNum);
+   addOptional(CVB3ODEEvalparser,'CV',defaultCV,validPosNumOrZero);
 
    parse(CVB3ODEEvalparser,MOI,varargin{:});
 
