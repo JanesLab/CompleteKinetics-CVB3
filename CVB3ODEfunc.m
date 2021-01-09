@@ -21,7 +21,7 @@ Constants = num2cell(Constants);
      PolysomeSize,k_T_c_Form,k_Translate,k_P_on,k_P_off,k_N_on,k_N_off,VROVolConv,k_R_Ip_Form,k_N_Transcript,k_P_Transcript,k_R_In_Form, ...
      u_P_cyt,u_P_VRO,u_N_cyt,u_N_VRO,u_T_c,u_VirProt_cyt,u_VirProt_VRO, ...
      k1f_cap,k2f_cap,k1b_cap,k2b_cap,kRNACapBind,kRNACapUnbind,k_Pentamer_on,k_Pentamer_off,u_cap_cyt,u_cap_VRO, ...
-     kcat_cleave,Km_cleave,InitRibAvail,u_ISG,ISGformRate,ISGBasal,kD_Hill,n_Hill,EC50_Protease,EC50_Translate,OAS_RNAdeg,EC50_RNAdeg,EC50_DetectorDeg,VROFormThreshold] = Constants{:};
+     kcat_cleave,Km_cleave,InitRibAvail,u_ISG,ISGformRate,StimISG,ISGBasal,kD_Hill,n_Hill,EC50_Protease,EC50_Translate,OAS_RNAdeg,EC50_RNAdeg,EC50_DetectorDeg,VROFormThreshold] = Constants{:};
 
 %Assign initial conditions to their respective terms
 InitVals = num2cell(InitVals);
@@ -168,17 +168,22 @@ ProtCytDeg = u_VirProt_cyt * Protease; %Degradation of viral proteases in the cy
 
 %IFN-B response equations
 TotalDoubleStrands = (R_In_VRO + R_Ip_VRO); %Summed for subsequent use in Viral detection equation
-if strcmpi(IFNSwitch,'on') %Sets when the IFN response begins
-    if strcmpi(IFNStimulation,'on') %Sets up the response in the case of IFNStimulation
-        if IFNStimulationTime <= 0
-            VirDetection = 1; %Starts Interferon response at the start of the simulation.
-        elseif IFNStimulationTime > 0 && t < IFNStimulationTime
-            VirDetection = ((TotalDoubleStrands)^n_Hill)/(kD_Hill^n_Hill + (TotalDoubleStrands)^n_Hill); %Hill equation for detection of dsRNA
-        elseif IFNStimulationTime > 0 && t >= IFNStimulationTime
-            VirDetection = 1; %Starts Interferon response at the IFNStimulation time.
+
+%Set VirDetection (dsRNA sensing mediated IFN response) and StimISG (exogenous IFN stimulation) depending on the amount of dsRNA and the simulation time respectively.
+if strcmpi(IFNSwitch,'on') %If the interferon response module is active
+    
+    VirDetection = ((TotalDoubleStrands)^n_Hill)/(kD_Hill^n_Hill + (TotalDoubleStrands)^n_Hill); %VirDetection is defined by a Hill equation for detection of dsRNA
+    
+    if strcmpi(IFNStimulation,'on') %If there is exogenous interferon stimulation
+        if IFNStimulationTime <= 0 % and if the stimulation time occurs prior to infection (pre-stimulation)
+            StimISG = 1; % then StimISG is always maximally on.
+            VirDetection = 0; %dsRNA mediated IFN response is superseded by the exogenous response.
+        elseif IFNStimulationTime > 0 && t < IFNStimulationTime %If the time of stimulation has not occured yet,
+            StimISG = 0; %then StimISG is off.
+        elseif IFNStimulationTime > 0 && t >= IFNStimulationTime %If the time of stimulation has occured, 
+            StimISG = 1; %then StimISG is maximally on.
+            VirDetection = 0;%dsRNA mediated IFN response is superseded by the exogenous response.
         end
-    else %If the IFN response is active but there is No IFNStimulation
-        VirDetection = ((TotalDoubleStrands)^n_Hill)/(kD_Hill^n_Hill + (TotalDoubleStrands)^n_Hill); %Hill equation for detection of dsRNA
     end
     
     if strcmpi(VirResponse,'on')
@@ -188,7 +193,7 @@ else
     VirDetection = 0; %Sets detection to 0 in the event of no IFN response
 end
 
-ISGform = VirDetection * ISGformRate * RibUnavail; %Formation of ISGs
+ISGform = (VirDetection + StimISG) * ISGformRate * RibUnavail; %Formation of ISGs can be induced by either VirDetection or exogenous StimISG.
 ISGDegradation = u_ISG * ISGProtein; %Degradation of ISG proteins in the cytoplasm
 ISGBasalRate = u_ISG * ISGBasal; %Maintains the basal level of ISG proteins against degradation
 if strcmpi(IFNSwitch,'on') %Impedes virus processes if IFN response is turned on
@@ -196,10 +201,11 @@ if strcmpi(IFNSwitch,'on') %Impedes virus processes if IFN response is turned on
     TranslateDissProt = TranslateDissProt * (1 - ISGProtein/(EC50_Protease + ISGProtein)); %ISG15 deactivation of proteases by ISGylation
     
     PosCytDeg = PosCytDeg * (1 + (OAS_RNAdeg-1)*ISGProtein/(EC50_RNAdeg + ISGProtein));   %Ramp degradation up 5-fold higher as ISGs are expressed, modeling OASs
+    PosCytDefectDeg = PosCytDeg * (1 + (OAS_RNAdeg-1)*ISGProtein/(EC50_RNAdeg + ISGProtein));   %Ramp degradation up 5-fold higher as ISGs are expressed, modeling OASs
     PosVRODeg = PosVRODeg * (1 + (OAS_RNAdeg-1)*ISGProtein/(EC50_RNAdeg + ISGProtein));   %Ramp degradation up 5-fold higher as ISGs are expressed, modeling OASs
     MinCytDeg = MinCytDeg * (1 + (OAS_RNAdeg-1)*ISGProtein/(EC50_RNAdeg + ISGProtein));   %Ramp degradation up 5-fold higher as ISGs are expressed, modeling OASs
     MinVRODeg = MinVRODeg * (1 + (OAS_RNAdeg-1)*ISGProtein/(EC50_RNAdeg + ISGProtein));   %Ramp degradation up 5-fold higher as ISGs are expressed, modeling OASs
-    TranslateDeg = TranslateDeg * (1 + (OAS_RNAdeg-1)*ISGProtein/(EC50_RNAdeg + ISGProtein));          %Ramp degradation up 5-fold higher as ISGs are expressed, modeling OASs
+    TranslateDeg = TranslateDeg * (1 + (OAS_RNAdeg-1)*ISGProtein/(EC50_RNAdeg + ISGProtein));   %Ramp degradation up 5-fold higher as ISGs are expressed, modeling OASs
 end
 
 
@@ -215,7 +221,7 @@ dCdt = [DAFdiss - DAFform; %uCVB3
     DAFtoJunc_Defect + DAFform_Junc_Defect - DAFdiss_Junc_Defect - CARform_DAF_Defect; %bDAF_Defective_TJ
     DAFdiss_Junc + CARdiss - CARform_uCVB3 - DAFform_Junc; %uCVB3_TJ
     DAFdiss_Junc_Defect + CARdiss_Defect - CARform_uCVB3_Defect - DAFform_Junc_Defect; %uCVB3_Defective_TJ
-    CARdiss - CARform_DAF - CARform_uCVB3 + Internalization + CARdiss_Defect - CARform_DAF_Defect - CARform_uCVB3_Defect + Internalization_Defect; %uCAR
+    CARdiss - CARform_DAF - CARform_uCVB3 + CARdiss_Defect - CARform_DAF_Defect - CARform_uCVB3_Defect; %uCAR
     CARform_DAF + CARform_uCVB3 - CARdiss - Internalization; %bCAR
     CARform_DAF_Defect + CARform_uCVB3_Defect - CARdiss_Defect - Internalization_Defect; %bCAR_Defective
     InternalVolConv * Internalization - RNARelease; %R_p_endo

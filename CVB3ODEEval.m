@@ -178,8 +178,8 @@ MaxCVB3Conc = (6.022e23)^-1 / (4/3*pi*(CVB3diameter/2)^3) * 1e33; %(nM)
 ParticlePFUConv = 800; %Number
 VROSurfaceArea = 120; %(µm^2) 
 VROSurfaceVolume = VROSurfaceArea * Pol3DLength/1000; %(µm^3) 
-ISGbpLength = 0.495; %(kb) 
-k_transcribeISG = lognrnd(muFunc(170,(CV*170)^2),sigma); %(kb/h) 
+ISGbpLength = 1.75; %(kb)
+k_transcribeISG = lognrnd(muFunc(170,(CV*170)^2),sigma); %(kb/h)
 RiboActive = 0.8; %Fraction 
 RiboTotal = 1e5; %Number
 PolysomeSize = 2.5; %Average polysome size. 
@@ -190,8 +190,8 @@ CVB3polyprolength = 2185; %(aa)
 EncapsidatedNegStrandRatio = 1/1790; %Fraction
 
 %Receptor binding constants
-k_on_DAF = lognrnd(muFunc(1.47e5*3600/1e9,(CV*3600/1e9)^2),sigma); %(nM^-1 * h^-1) 
-k_off_DAF = lognrnd(muFunc(0.3*3600,(CV*3600)^2),sigma); %(h^-1)
+k_on_DAF = lognrnd(muFunc(1.47e5*3600/1e9,(CV*1.47e5*3600/1e9)^2),sigma); %(nM^-1 * h^-1) 
+k_off_DAF = lognrnd(muFunc(0.3*3600,(CV*0.3*3600)^2),sigma); %(h^-1)
 k_transloc = lognrnd(muFunc(60,(CV*60)^2),sigma); %(h^-1) 
 k_on_CAR = lognrnd(muFunc(3.35e3*3600/1e9,(CV*3.35e3*3600/1e9)^2),sigma); %(nM^-1 * h^-1)
 k_off_CAR = lognrnd(muFunc(8.21e-4*3600,(CV*8.21e-4*3600)^2),sigma); %(h^-1) 
@@ -239,6 +239,7 @@ InitRibAvail = (1 - RiboActive) * RiboTotal / PolysomeSize / (6.022e23 * CellCyt
 kD_Hill = lognrnd(muFunc(1,(CV*1)^2),sigma); %(nM)
 n_Hill = lognrnd(muFunc(1.36,(CV*1.36)^2),sigma); %(dimensionless)
 ISGformRate = k_transcribeISG/ISGbpLength; %(h^-1)
+StimISG = 0; %(dimensionless)
 ISGBasal = 0; %(nM) 
 u_ISG = lognrnd(muFunc(0.1,(CV*0.1)^2),sigma); %(h^-1)
 EC50_Protease = lognrnd(muFunc(EC50_Protease,(CV*EC50_Protease)^2),sigma); %(nM)
@@ -252,14 +253,14 @@ Constants = [k_on_DAF,k_off_DAF,k_transloc,k_on_CAR,k_off_CAR,k_internal,Interna
             PolysomeSize,k_T_c_Form,k_Translate,k_P_on,k_P_off,k_N_on,k_N_off,VROVolConv,k_R_Ip_Form,k_N_Transcript,k_P_Transcript,k_R_In_Form ...
             u_P_cyt,u_P_VRO,u_N_cyt,u_N_VRO,u_T_c,u_VirProt_cyt,u_VirProt_VRO ...
             k1f_cap,k2f_cap,k1b_cap,k2b_cap,kRNACapBind,kRNACapUnbind,k_Pentamer_on,k_Pentamer_off,u_cap_cyt,u_cap_VRO ...
-            kcat_cleave,Km_cleave,InitRibAvail,u_ISG,ISGformRate,ISGBasal,kD_Hill,n_Hill,EC50_Protease,EC50_Translate,OAS_RNAdeg,EC50_RNAdeg,EC50_DetectorDeg,VROFormThreshold];
+            kcat_cleave,Km_cleave,InitRibAvail,u_ISG,ISGformRate,StimISG,ISGBasal,kD_Hill,n_Hill,EC50_Protease,EC50_Translate,OAS_RNAdeg,EC50_RNAdeg,EC50_DetectorDeg,VROFormThreshold];
  
 %Creates vector of labels for the above constants.      
 ConstantLabels = {'k_on_DAF' 'k_off_DAF' 'k_transloc' 'k_on_CAR' 'k_off_CAR' 'k_internal' 'Cyt_Vol._Conv.'  'k_endo_escape'  ...
     'PolysomeSize' 'k_Tc_Form' 'k_Translate' 'k_P_on' 'k_P_off' 'k_N_on' 'k_N_off' 'VRO_Vol._Conv.' 'k_RIp_Form' 'k_N_Transcribe' 'k_P_Transcribe' 'k_RIn_Form'  ...
     'u_P_cyt' 'u_P_VRO' 'u_N_cyt' 'u_N_VRO' 'u_T_c' 'u_VirProt_cyt' 'u_VirProt_VRO' ...
     'k1f_cap' 'k2f_cap' 'k1b_cap' 'k2b_cap' 'k_RNACapBind' 'k_RNACapUnbind' 'k_Pentamer_on' 'k_Pentamer_off' 'u_cap_cyt' 'u_cap_VRO' ...
-    'kcat_cleave' 'Km_cleave' 'Initial_Viral_Ribosomes' 'u_ISG' 'ISGformRate' 'ISGBasal' 'kD_Hill' 'Hill_Constant' 'EC50_Protease' 'EC50_Translate' 'OAS_RNAdeg' 'EC50_RNAdeg' 'EC50_DetectorDeg' 'VRO_Formation_Threshold'};
+    'kcat_cleave' 'Km_cleave' 'Initial_Viral_Ribosomes' 'u_ISG' 'ISGformRate' 'StimISG' 'ISGBasal' 'kD_Hill' 'Hill_Constant' 'EC50_Protease' 'EC50_Translate' 'OAS_RNAdeg' 'EC50_RNAdeg' 'EC50_DetectorDeg' 'VRO_Formation_Threshold'};
 
 %Creates a labeled table of constants
 LabeledConstants = table(Constants','RowNames',ConstantLabels,'VariableNames',{'Value'});
@@ -317,10 +318,10 @@ ISGProtein = ISGBasal; %(nM) ISG protein in the cytoplasm
 
 %Set the initial ISGProtein concentration in the event of pre-stimulation
 if IFNStimulationTime < 0
-    VirDetection = 1; %Starts Interferon response at the start of the simulation.
+    StimISG = 1; %Starts Interferon response at the start of the simulation.
     
     %Runs the ODE to calculate ISG levels. Note: Viral proteases do not need to be accounted for since we're running this simulation before infection begins.
-    [~,PrimedISGProtein] = ode15s(@(t,PrimedISGProtein) VirDetection * ISGformRate * RibUnavail - u_ISG * PrimedISGProtein,[0 abs(IFNStimulationTime)],ISGProtein,odeset('NonNegative',1));
+    [~,PrimedISGProtein] = ode15s(@(t,PrimedISGProtein) StimISG * ISGformRate * RibUnavail - u_ISG * PrimedISGProtein,[0 abs(IFNStimulationTime)],ISGProtein,odeset('NonNegative',1));
     
     ISGProtein = ISGProtein + PrimedISGProtein(length(PrimedISGProtein)); %Sets the initial value of ISGProtein to the final value (and adds back in basal levels)
 end   
@@ -412,7 +413,7 @@ TotalPosStrands = InternalVolConv*(0*sum(PermuteSolutionsTensor(:,:,4:5),3) ... 
     + sum(PermuteSolutionsTensor(:,:,12:13),3)) ... %bCAR, bCAR_Defective
     + sum(PermuteSolutionsTensor(:,:,14:15),3) ...  %R_p_endo, R_p_endo_Defective
     + sum(PermuteSolutionsTensor(:,:,16:18),3) ...  %R_p_cyt, R_p_cyt_Defective, T_c
-    + PermuteSolutionsTensor(:,:,20) ...            %R_p_VRO
+    + PermuteSolutionsTensor(:,:,20) ...  %R_p_VRO
     + 0*PermuteSolutionsTensor(:,:,23) ... %R_Ip_VRO
     + sum(PermuteSolutionsTensor(:,:,28:39),3); %RNAPentamer and filled pentamer species
 TotalNegStrands = EncapsidatedNegStrandRatio*(InternalVolConv*(0*sum(PermuteSolutionsTensor(:,:,4:5),3) ... %bDAF, bDAF_Defective; assumed instantly removed before lysis
@@ -427,30 +428,44 @@ TotalRNARatio = TotalPosStrands./TotalNegStrands;
 TotalDoubleStrands = sum(PermuteSolutionsTensor(:,:,23:24),3); %R_Ip_VRO, R_In_VRO;
 TotalDoubleStrandsVRO = TotalDoubleStrands.*VROVolConv;
 
+%Convert the time array to a step function corresponding to the stimulation time.
+if IFNStimulationTime<0 
+    stimulationStepFunction = ones(length(t),1); %If pre-stimulation occurs, exogenous IFN is always on.
+else
+    stimulationStepFunction = floor(t-IFNStimulationTime)>= 0; %If stimulation occurs sometime after simulation start, only after that time is exogenous IFN on.
+end
+
+%Find the inverse of the stimulationStepFunction. This will be the scaling function for endogenous VirDetection. The contribution of VirDetection to IFN response is superseded by exogenous stimulation. 
+virDetectionScalingFunction = 1-stimulationStepFunction;
+
 %Create host-virus interaction species for later plotting
 if strcmpi(IFNSwitch,'on') && (strcmpi(IFNStimulation,'on') == 0) %If endogenous response is active but there is no exogenous IFN stimulation
-    VirDetection = ((TotalDoubleStrandsVRO).^n_Hill)./(kD_Hill^n_Hill + (TotalDoubleStrandsVRO).^n_Hill); %Re-creates the pattern of viral detection in CVB3ODEfunc
-elseif strcmpi(IFNStimulation,'on') && strcmpi(IFNSwitch,'on') %If endogenous response is active and the cell is exogenously stimulated at or before infection begins
-    VirDetection = ones(length(t),size(PermuteSolutionsTensor,2)); %The Hill equation is at the max value of 1 from the start of infection
-    if IFNStimulationTime > 0 %If stimulation occurs after infection has started
-        for i = 1:length(t)
-            if t(i) >= IFNStimulationTime %Finds the index of the vector at the time when IFN stimulation occurs
-                t_stim = i; break
-            end
-        end
-        VirDetection(1:t_stim,:) = ((TotalDoubleStrandsVRO(1:t_stim,:)).^n_Hill)./(kD_Hill^n_Hill + (TotalDoubleStrandsVRO(1:t_stim,:)).^n_Hill); %Set the values before exogenous stimulation to the endogenous response curve
-        %Once exogenous stimulation occurs, values are set to 1 (maximum response) rather than endogenous response (already set to 1 above)
-    end
+    
+    VirDetection = ((TotalDoubleStrandsVRO).^n_Hill)./(kD_Hill^n_Hill + (TotalDoubleStrandsVRO).^n_Hill); %Viral detection proceeds throughout the simulation
+    StimISG = zeros(length(t),size(PermuteSolutionsTensor,2)); %No exogenous stimulation contributes to the IFNResponse.
+    
+elseif strcmpi(IFNStimulation,'on') && strcmpi(IFNSwitch,'on') %If endogenous response is active and the cell is exogenously stimulated
+    
+    VirDetection = virDetectionScalingFunction .* ((TotalDoubleStrandsVRO).^n_Hill)./(kD_Hill^n_Hill + (TotalDoubleStrandsVRO).^n_Hill); %Viral detection proceeds until exogenous stimulation when the response becomes saturated 
+    StimISG = stimulationStepFunction .* ones(length(t),size(PermuteSolutionsTensor,2)); %Exogenous stimulation saturates the response at the time of stimulation.
+    
 elseif strcmpi(IFNSwitch,'on') == 0 %If interferon response is off
+    
     VirDetection = zeros(length(t),size(PermuteSolutionsTensor,2)); %No viral detection occurs in this situation
+    StimISG = zeros(length(t),size(PermuteSolutionsTensor,2)); %No exogenous stimulation occurs.
+    
 end
+
 if strcmpi(VirResponse,'on')
-    VirDetection = VirDetection.*(1 - Protease./(Protease + EC50_DetectorDeg)); %Scales down viral detection for IFN response if the virus's response to the IFN response is active.
+    VirDetection = VirDetection.*(1 - TotalP3./(TotalP3 + EC50_DetectorDeg)); %Scales down viral detection for IFN response if the virus's response to the IFN response is active.
 end
+
+%According to the endogenous viral detection and exogenous IFN stimulation calculate the total interferon response.
+IFNResponse = VirDetection + StimISG;
 
 %Determine the medians of the model species solutions
 MediansMatrix = median(SolutionsTensor,3);
-VirDetectionSummary(:,1) = median(VirDetection,2);
+IFNResponseSummary(:,1) = median(IFNResponse,2);
 TotalPosStrandsSummary(:,1) = median(TotalPosStrands,2);
 TotalNegStrandsSummary(:,1) = median(TotalNegStrands,2);
 TotalDoubleStrandsSummary(:,1) = median(TotalDoubleStrands,2);
@@ -458,14 +473,14 @@ TotalP1Summary(:,1) = median(TotalP1,2);
 
 %Determine the quartiles of the model species solutions
 UpperQuantileMatrix = quantile(SolutionsTensor,UpperQuantile,3);
-VirDetectionSummary(:,2) = quantile(VirDetection,UpperQuantile,2);
+IFNResponseSummary(:,2) = quantile(IFNResponse,UpperQuantile,2);
 TotalPosStrandsSummary(:,2) = quantile(TotalPosStrands,UpperQuantile,2);
 TotalNegStrandsSummary(:,2) = quantile(TotalNegStrands,UpperQuantile,2);
 TotalDoubleStrandsSummary(:,2) = quantile(TotalDoubleStrands,UpperQuantile,2);
 TotalP1Summary(:,2) = quantile(TotalP1,UpperQuantile,2);
 
 LowerQuantileMatrix = quantile(SolutionsTensor,LowerQuantile,3);
-VirDetectionSummary(:,3) = quantile(VirDetection,LowerQuantile,2);
+IFNResponseSummary(:,3) = quantile(IFNResponse,LowerQuantile,2);
 TotalPosStrandsSummary(:,3) = quantile(TotalPosStrands,LowerQuantile,2);
 TotalNegStrandsSummary(:,3) = quantile(TotalNegStrands,LowerQuantile,2);
 TotalDoubleStrandsSummary(:,3) = quantile(TotalDoubleStrands,LowerQuantile,2);
@@ -473,7 +488,7 @@ TotalP1Summary(:,3) = quantile(TotalP1,LowerQuantile,2);
 
 %Determine the means of the model species solutions
 MeansMatrix = mean(SolutionsTensor,3);
-VirDetectionSummary(:,4) = mean(VirDetection,2);
+IFNResponseSummary(:,4) = mean(IFNResponse,2);
 TotalPosStrandsSummary(:,4) = mean(TotalPosStrands,2);
 TotalNegStrandsSummary(:,4) = mean(TotalNegStrands,2);
 TotalDoubleStrandsSummary(:,4) = mean(TotalDoubleStrands,2);
@@ -511,9 +526,9 @@ if strcmpi(SensitivityAnalysis,'on')
         sprintf('MaxScalingOrder: %d',MaxScalingOrder)...
         strcat('ExportData: ',ExportData)...
         strcat('DataFile: ',DataFile)...
-        strcat('RunCount',RunCount)...
-        strcat('UpperQuantile',UpperQuantile)...
-        strcat('LowerQuantile',LowerQuantile)...
+        sprintf('RunCount: %d',RunCount)...
+        sprintf('UpperQuantile: %d',UpperQuantile)...
+        sprintf('LowerQuantile: %d',LowerQuantile)...
         sprintf('CV: %d',CV)};
 else
     RunParameters = {sprintf('MOI: %d', MOI)...
@@ -525,9 +540,9 @@ else
         strcat('SensitivityAnalysis: ',SensitivityAnalysis)...
         strcat('ExportData: ',ExportData)...
         strcat('DataFile: ',DataFile)...
-        strcat('RunCount',RunCount)...
-        strcat('UpperQuantile',UpperQuantile)...
-        strcat('LowerQuantile',LowerQuantile)...
+        sprintf('RunCount: %d',RunCount)...
+        sprintf('UpperQuantile: %d',UpperQuantile)...
+        sprintf('LowerQuantile: %d',LowerQuantile)...
         sprintf('CV: %d',CV)};
 end
 
@@ -537,7 +552,7 @@ ResultsLabels = {'Time'...
     'VRO +ssRNA' 'VRO -ssRNA' 'VRO +ssRNA Replication Complex' 'VRO -ssRNA Replication Complex' 'VRO Viral Polymerase 3D' 'VRO Viral 2C' 'VRO Pentamer'...
     'RNA-Bound Pentamer' '+ssRNA-2xPentamer' '+ssRNA-3xPentamer' '+ssRNA-4xPentamer' '+ssRNA-5xPentamer' '+ssRNA-6xPentamer' '+ssRNA-7xPentamer' '+ssRNA-8xPentamer' '+ssRNA-9xPentamer' '+ssRNA-10xPentamer' '+ssRNA-11xPentamer' 'Virions'...
     '2xPentamer' '3xPentamer' '4xPentamer' '5xPentamer' '6xPentamer' '7xPentamer' '8xPentamer' '9xPentamer' '10xPentamer' '11xPentamer' 'Empty Provirions'...
-    'Viral Detection' 'Interferon Stimulated Proteins'...
+    'IFN Response' 'Interferon Stimulated Proteins'... 
     'Total +ssRNA' 'Total -ssRNA' 'Total dsRNA' 'Total Viral Protein'};
 
 MedianTable = table(t,...%Time
@@ -546,7 +561,7 @@ MedianTable = table(t,...%Time
     R_p_VRO(:,1),R_n_VRO(:,1),R_Ip_VRO(:,1),R_In_VRO(:,1),Pol3D_VRO(:,1),ATPase2C(:,1),Pentamer_VRO(:,1),...%Viral Replication Organelle 
     RNAPentamer(:,1),P2Filled(:,1),P3Filled(:,1),P4Filled(:,1),P5Filled(:,1),P6Filled(:,1),P7Filled(:,1),P8Filled(:,1),P9Filled(:,1),P10Filled(:,1),P11Filled(:,1),Virion(:,1),...%Virion Assembly
     P2Empty(:,1),P3Empty(:,1),P4Empty(:,1),P5Empty(:,1),P6Empty(:,1),P7Empty(:,1),P8Empty(:,1),P9Empty(:,1),P10Empty(:,1),P11Empty(:,1),EmptyProvirion(:,1),...
-    VirDetectionSummary(:,1),ISGProtein(:,1),...%Host-virus Interaction
+    IFNResponseSummary(:,1),ISGProtein(:,1),...%Host-virus Interaction
     TotalPosStrandsSummary(:,1), TotalNegStrandsSummary(:,1), TotalDoubleStrandsSummary(:,1), TotalP1Summary(:,1),...%Summary species
     'VariableNames',ResultsLabels);
 
@@ -556,7 +571,7 @@ UpperQuantileTable = table(t,...%Time
     R_p_VRO(:,2),R_n_VRO(:,2),R_Ip_VRO(:,2),R_In_VRO(:,2),Pol3D_VRO(:,2),ATPase2C(:,2),Pentamer_VRO(:,2),...%Viral Replication Organelle 
     RNAPentamer(:,2),P2Filled(:,2),P3Filled(:,2),P4Filled(:,2),P5Filled(:,2),P6Filled(:,2),P7Filled(:,2),P8Filled(:,2),P9Filled(:,2),P10Filled(:,2),P11Filled(:,2),Virion(:,2),...%Virion Assembly
     P2Empty(:,2),P3Empty(:,2),P4Empty(:,2),P5Empty(:,2),P6Empty(:,2),P7Empty(:,2),P8Empty(:,2),P9Empty(:,2),P10Empty(:,2),P11Empty(:,2),EmptyProvirion(:,2),...
-    VirDetectionSummary(:,2),ISGProtein(:,2),...%Host-virus Interaction
+    IFNResponseSummary(:,2),ISGProtein(:,2),...%Host-virus Interaction
     TotalPosStrandsSummary(:,2), TotalNegStrandsSummary(:,2), TotalDoubleStrandsSummary(:,2), TotalP1Summary(:,2),...%Summary species
     'VariableNames',ResultsLabels);
 
@@ -566,7 +581,7 @@ LowerQuantileTable = table(t,...%Time
     R_p_VRO(:,3),R_n_VRO(:,3),R_Ip_VRO(:,3),R_In_VRO(:,3),Pol3D_VRO(:,3),ATPase2C(:,3),Pentamer_VRO(:,3),...%Viral Replication Organelle 
     RNAPentamer(:,3),P2Filled(:,3),P3Filled(:,3),P4Filled(:,3),P5Filled(:,3),P6Filled(:,3),P7Filled(:,3),P8Filled(:,3),P9Filled(:,3),P10Filled(:,3),P11Filled(:,3),Virion(:,3),...%Virion Assembly
     P2Empty(:,3),P3Empty(:,3),P4Empty(:,3),P5Empty(:,3),P6Empty(:,3),P7Empty(:,3),P8Empty(:,3),P9Empty(:,3),P10Empty(:,3),P11Empty(:,3),EmptyProvirion(:,3),...
-    VirDetectionSummary(:,3),ISGProtein(:,3),...%Host-virus Interaction
+    IFNResponseSummary(:,3),ISGProtein(:,3),...%Host-virus Interaction
     TotalPosStrandsSummary(:,3), TotalNegStrandsSummary(:,3), TotalDoubleStrandsSummary(:,3), TotalP1Summary(:,3),...%Summary species
     'VariableNames',ResultsLabels);
 
@@ -576,7 +591,7 @@ MeanTable = table(t,...%Time
     R_p_VRO(:,4),R_n_VRO(:,4),R_Ip_VRO(:,4),R_In_VRO(:,4),Pol3D_VRO(:,4),ATPase2C(:,4),Pentamer_VRO(:,4),...%Viral Replication Organelle 
     RNAPentamer(:,4),P2Filled(:,4),P3Filled(:,4),P4Filled(:,4),P5Filled(:,4),P6Filled(:,4),P7Filled(:,4),P8Filled(:,4),P9Filled(:,4),P10Filled(:,4),P11Filled(:,4),Virion(:,4),...%Virion Assembly
     P2Empty(:,4),P3Empty(:,4),P4Empty(:,4),P5Empty(:,4),P6Empty(:,4),P7Empty(:,4),P8Empty(:,4),P9Empty(:,4),P10Empty(:,4),P11Empty(:,4),EmptyProvirion(:,4),...
-    VirDetectionSummary(:,4),ISGProtein(:,4),...%Host-virus Interaction
+    IFNResponseSummary(:,4),ISGProtein(:,4),...%Host-virus Interaction
     TotalPosStrandsSummary(:,4), TotalNegStrandsSummary(:,4), TotalDoubleStrandsSummary(:,4), TotalP1Summary(:,4),...%Summary species
     'VariableNames',ResultsLabels);
 
@@ -589,6 +604,7 @@ MeanTable.Variables = round(MeanTable.Variables, 6);
 %Assign ResultsTable variable units
 unitArray = cell(1,59);
 unitArray(:) = {'nM'};
+unitArray(54:55) = {''};
 MedianTable.Properties.VariableUnits = cat(2,{'Hours'},unitArray);
 UpperQuantileTable.Properties.VariableUnits = cat(2,{'Hours'},unitArray);
 LowerQuantileTable.Properties.VariableUnits = cat(2,{'Hours'},unitArray);

@@ -93,19 +93,21 @@ if strcmpi(PlotOutputs,'All')
         Mean = table2array(MeanTable(:,{VarNames{i}}));
         if strcmpi(PlotType,'linear') == 1
             hold on
-            plot(Time,Median,'r-','LineWidth',2)
+            MedianPlot = plot(Time,Median,'r-','LineWidth',2);
             if strcmpi(PopulationSetting,'Population') %Population mode plots the mean as well
-                plot(Time,Mean,'r:','LineWidth',2)
+                MeanPlot = plot(Time,Mean,'r:','LineWidth',2);
+                legend([MedianPlot, MeanPlot], 'Median','Mean')
             elseif strcmpi(PopulationSetting,'Single Cell') %Only plot quantiles in Single-Cell mode
                 plot(Time,UQ,'r--','LineWidth',0.75)
                 plot(Time,LQ,'r--','LineWidth',0.75)
             end
             hold off
         elseif strcmpi(PlotType,'semilog') == 1
-            semilogy(Time,max(Median,0.000001),'r-','LineWidth',2)
+            MedianPlot=semilogy(Time,max(Median,0.000001),'r-','LineWidth',2);
             hold on
             if strcmpi(PopulationSetting,'Population') %Population mode plots the mean as well
-                semilogy(Time,max(Mean,0.000001),'r:','LineWidth',0.75)
+                MeanPlot=semilogy(Time,max(Mean,0.000001),'r:','LineWidth',2);
+                legend([MedianPlot, MeanPlot], 'Median','Mean')
             elseif strcmpi(PopulationSetting,'Single Cell') %Only plot quantiles in Single-Cell mode
                 semilogy(Time,max(UQ,0.000001),'r--','LineWidth',0.75)
                 semilogy(Time,max(LQ,0.000001),'r--','LineWidth',0.75)
@@ -126,19 +128,23 @@ if strcmpi(PlotOutputs,'All')
         Mean = table2array(MeanTable(:,{VarNames{i}}));
         if strcmpi(PlotType,'linear') == 1
             hold on
-            plot(Time,Median,'r-','LineWidth',2)
+            MedianPlot=plot(Time,Median,'r-','LineWidth',2);
             if strcmpi(PopulationSetting,'Population') %Population mode plots the mean as well
-                plot(Time,Mean,'r:','LineWidth',2)
+                MeanPlot=plot(Time,Mean,'r:','LineWidth',2);
+                legend([MedianPlot, MeanPlot], 'Median','Mean')
+                
             elseif strcmpi(PopulationSetting,'Single Cell') %Only plot quantiles in Single-Cell mode
                 plot(Time,UQ,'r--','LineWidth',0.75)
                 plot(Time,LQ,'r--','LineWidth',0.75)
             end
             hold off
         elseif strcmpi(PlotType,'semilog') == 1
-            semilogy(Time,max(Median,0.000001),'r-','LineWidth',2)
+            MedianPlot=semilogy(Time,max(Median,0.000001),'r-','LineWidth',2);
             hold on
             if strcmpi(PopulationSetting,'Population') %Population mode plots the mean as well
-                semilogy(Time,max(Mean,0.000001),'r:','LineWidth',0.75)
+                MeanPlot=semilogy(Time,max(Mean,0.000001),'r:','LineWidth',2);
+                legend([MedianPlot, MeanPlot], 'Median','Mean')
+                
             elseif strcmpi(PopulationSetting,'Single Cell') %Only plot quantiles in Single-Cell mode
                 semilogy(Time,max(UQ,0.000001),'r--','LineWidth',0.75)
                 semilogy(Time,max(LQ,0.000001),'r--','LineWidth',0.75)
@@ -159,19 +165,23 @@ if strcmpi(PlotOutputs,'All')
         Mean = table2array(MeanTable(:,{VarNames{i}}));
         if strcmpi(PlotType,'linear') == 1
             hold on
-            plot(Time,Median,'r-','LineWidth',2)
+            MedianPlot=plot(Time,Median,'r-','LineWidth',2);
             if strcmpi(PopulationSetting,'Population') %Population mode plots the mean as well
-                plot(Time,Mean,'r:','LineWidth',2)
+                MeanPlot=plot(Time,Mean,'r:','LineWidth',2);
+                legend([MedianPlot, MeanPlot], 'Median','Mean')
+                
             elseif strcmpi(PopulationSetting,'Single Cell') %Only plot quantiles in Single-Cell mode
                 plot(Time,UQ,'r--','LineWidth',0.75)
                 plot(Time,LQ,'r--','LineWidth',0.75)
             end
             hold off
         elseif strcmpi(PlotType,'semilog') == 1
-            semilogy(Time,max(Median,0.000001),'r-','LineWidth',2)
+            MedianPlot=semilogy(Time,max(Median,0.000001),'r-','LineWidth',2);
             hold on
             if strcmpi(PopulationSetting,'Population') %Population mode plots the mean as well
-                semilogy(Time,max(Mean,0.000001),'r:','LineWidth',0.75)
+                MeanPlot=semilogy(Time,max(Mean,0.000001),'r:','LineWidth',2);
+                legend([MedianPlot, MeanPlot], 'Median','Mean')
+                
             elseif strcmpi(PopulationSetting,'Single Cell') %Only plot quantiles in Single-Cell mode
                 semilogy(Time,max(UQ,0.000001),'r--','LineWidth',0.75)
                 semilogy(Time,max(LQ,0.000001),'r--','LineWidth',0.75)
@@ -192,19 +202,23 @@ if strcmpi(PlotOutputs,'All')
         Mean = table2array(MeanTable(:,{VarNames{i}}));
         if strcmpi(PlotType,'linear') == 1
             hold on
-            plot(Time,Median,'r-','LineWidth',2)
+            MedianPlot=plot(Time,Median,'r-','LineWidth',2);
             if strcmpi(PopulationSetting,'Population') %Population mode plots the mean as well
-                plot(Time,Mean,'r:','LineWidth',2)
+                MeanPlot=plot(Time,Mean,'r:','LineWidth',2);
+                legend([MedianPlot, MeanPlot], 'Median','Mean')
+                
             elseif strcmpi(PopulationSetting,'Single Cell') %Only plot quantiles in Single-Cell mode
                 plot(Time,UQ,'r--','LineWidth',0.75)
                 plot(Time,LQ,'r--','LineWidth',0.75)
             end
             hold off
         elseif strcmpi(PlotType,'semilog') == 1
-            semilogy(Time,max(Median,0.000001),'r-','LineWidth',2)
+            MedianPlot=semilogy(Time,max(Median,0.000001),'r-','LineWidth',2);
             hold on
             if strcmpi(PopulationSetting,'Population') %Population mode plots the mean as well
-                semilogy(Time,max(Mean,0.000001),'r:','LineWidth',0.75)
+                MeanPlot=semilogy(Time,max(Mean,0.000001),'r:','LineWidth',2);
+                legend([MedianPlot, MeanPlot], 'Median','Mean')
+                
             elseif strcmpi(PopulationSetting,'Single Cell') %Only plot quantiles in Single-Cell mode
                 semilogy(Time,max(UQ,0.000001),'r--','LineWidth',0.75)
                 semilogy(Time,max(LQ,0.000001),'r--','LineWidth',0.75)
@@ -221,19 +235,23 @@ if strcmpi(PlotOutputs,'All')
         Mean = table2array(MeanTable(:,{VarNames{i}}));
         if strcmpi(PlotType,'linear') == 1
             hold on
-            plot(Time,Median,'r-','LineWidth',2)
+            MedianPlot=plot(Time,Median,'r-','LineWidth',2);
             if strcmpi(PopulationSetting,'Population') %Population mode plots the mean as well
-                plot(Time,Mean,'r:','LineWidth',2)
+                MeanPlot=plot(Time,Mean,'r:','LineWidth',2);
+                legend([MedianPlot, MeanPlot], 'Median','Mean')
+                
             elseif strcmpi(PopulationSetting,'Single Cell') %Only plot quantiles in Single-Cell mode
                 plot(Time,UQ,'r--','LineWidth',0.75)
                 plot(Time,LQ,'r--','LineWidth',0.75)
             end
             hold off
         elseif strcmpi(PlotType,'semilog') == 1
-            semilogy(Time,max(Median,0.000001),'r-','LineWidth',2)
+            MedianPlot=semilogy(Time,max(Median,0.000001),'r-','LineWidth',2);
             hold on
             if strcmpi(PopulationSetting,'Population') %Population mode plots the mean as well
-                semilogy(Time,max(Mean,0.000001),'r:','LineWidth',0.75)
+                MeanPlot=semilogy(Time,max(Mean,0.000001),'r:','LineWidth',2);
+                legend([MedianPlot, MeanPlot], 'Median','Mean')
+                
             elseif strcmpi(PopulationSetting,'Single Cell') %Only plot quantiles in Single-Cell mode
                 semilogy(Time,max(UQ,0.000001),'r--','LineWidth',0.75)
                 semilogy(Time,max(LQ,0.000001),'r--','LineWidth',0.75)
@@ -258,10 +276,15 @@ if strcmpi(PlotOutputs,'All')
         hold on
         filledPlot = plot(Time,MedianFilledOutput,'r-','LineWidth',2);
         emptyPlot = plot(Time,MedianEmptyOutput,'b-','LineWidth',2);
+        LegendPlots = [filledPlot, emptyPlot];
+        LegendLabels = {'Filled Virions','Empty Virions'};
         
         if strcmpi(PopulationSetting,'Population') %Population mode plots the mean as well
-            plot(Time,MeanFilledOutput,'r:','MarkerSize',5)
-            plot(Time,MeanEmptyOutput,'b:','MarkerSize',5)
+            MeanFilledPlot=plot(Time,MeanFilledOutput,'r:','LineWidth',2);
+            MeanEmptyPlot=plot(Time,MeanEmptyOutput,'b:','LineWidth',2);
+            LegendPlots = [filledPlot,emptyPlot,MeanFilledPlot,MeanEmptyPlot];
+            LegendLabels = {'Median Filled Virions','Median Empty Virions','Mean Filled Virions','Mean Empty Virions'};
+            
         elseif strcmpi(PopulationSetting,'Single Cell') %Only plot quantiles in Single-Cell mode
             plot(Time,UQFilledOutput,'r--','LineWidth',0.75)
             plot(Time,LQFilledOutput,'r--','LineWidth',0.75)
@@ -270,16 +293,21 @@ if strcmpi(PlotOutputs,'All')
             plot(Time,LQEmptyOutput,'b--','LineWidth',0.75)
         end
         
-        legend([filledPlot,emptyPlot],'Filled Virions','Empty Virions')
+        legend(LegendPlots,LegendLabels)
         hold off
     elseif strcmpi(PlotType,'semilog') == 1
         filledPlot = semilogy(Time,max(MedianFilledOutput,0.000001),'r-','LineWidth',2);
         hold on
         emptyPlot = semilogy(Time,max(MedianEmptyOutput,0.000001),'b-','LineWidth',2);
+        LegendPlots = [filledPlot, emptyPlot];
+        LegendLabels = {'Filled Virions','Empty Virions'};
         
         if strcmpi(PopulationSetting,'Population') %Population mode plots the mean as well
-            semilogy(Time,max(MeanFilledOutput,0.000001),'r:','MarkerSize',5)
-            semilogy(Time,max(MeanEmptyOutput,0.000001),'b:','MarkerSize',5)
+            MeanFilledPlot=semilogy(Time,max(MeanFilledOutput,0.000001),'r:','LineWidth',2);
+            MeanEmptyPlot=semilogy(Time,max(MeanEmptyOutput,0.000001),'b:','LineWidth',2);
+            LegendPlots = [filledPlot,emptyPlot,MeanFilledPlot,MeanEmptyPlot];
+            LegendLabels = {'Median Filled Virions','Median Empty Virions','Mean Filled Virions','Mean Empty Virions'};
+            
         elseif strcmpi(PopulationSetting,'Single Cell') %Only plot quantiles in Single-Cell mode
             semilogy(Time,max(UQFilledOutput,0.000001),'r--','LineWidth',0.75)
             semilogy(Time,max(LQFilledOutput,0.000001),'r--','LineWidth',0.75)
@@ -288,10 +316,10 @@ if strcmpi(PlotOutputs,'All')
             semilogy(Time,max(LQEmptyOutput,0.000001),'b--','LineWidth',0.75)
         end
         
-        legend([filledPlot,emptyPlot],'Filled Virions','Empty Virions')
+        legend(LegendPlots,LegendLabels)
         hold off
     end
-    font_ax(sprintf('Infectious Viral Progeny vs Empty Provions at an MOI of %s',MOI),'Time (h)','',10,'bold',2.0,0)
+    font_ax(sprintf('Infectious Viral Progeny vs Empty Provions at an MOI of %s',MOI),'Time (h)','nM',10,'bold',2.0,0)
     
     %Host-viral interaction
     figure
@@ -304,19 +332,23 @@ if strcmpi(PlotOutputs,'All')
         Mean = table2array(MeanTable(:,{VarNames{i}}));
         if strcmpi(PlotType,'linear') == 1
             hold on
-            plot(Time,Median,'r-','LineWidth',2)
+            MedianPlot=plot(Time,Median,'r-','LineWidth',2);
             if strcmpi(PopulationSetting,'Population') %Population mode plots the mean as well
-                plot(Time,Mean,'r:','LineWidth',2)
+                MeanPlot=plot(Time,Mean,'r:','LineWidth',2);
+                legend([MedianPlot,MeanPlot],'Median', 'Mean')
+                
             elseif strcmpi(PopulationSetting,'Single Cell') %Only plot quantiles in Single-Cell mode
                 plot(Time,UQ,'r--','LineWidth',0.75)
                 plot(Time,LQ,'r--','LineWidth',0.75)
             end
             hold off
         elseif strcmpi(PlotType,'semilog') == 1
-            semilogy(Time,max(Median,0.000001),'r-','LineWidth',2)
+            MedianPlot=semilogy(Time,max(Median,0.000001),'r-','LineWidth',2);
             hold on
             if strcmpi(PopulationSetting,'Population') %Population mode plots the mean as well
-                semilogy(Time,max(Mean,0.000001),'r:','LineWidth',0.75)
+                MeanPlot=semilogy(Time,max(Mean,0.000001),'r:','LineWidth',2);
+                legend([MedianPlot,MeanPlot],'Median', 'Mean')
+                
             elseif strcmpi(PopulationSetting,'Single Cell') %Only plot quantiles in Single-Cell mode
                 semilogy(Time,max(UQ,0.000001),'r--','LineWidth',0.75)
                 semilogy(Time,max(LQ,0.000001),'r--','LineWidth',0.75)
@@ -346,10 +378,15 @@ if strcmpi(PlotOutputs,'All')
         hold on
         TotPosPlot = plot(Time,MedianTotPosOutput,'r-','LineWidth',2);
         TotNegPlot = plot(Time,MedianTotNegOutput,'b-','LineWidth',2);
+        LegendPlots = [TotPosPlot,TotNegPlot];
+        LegendLabels = {'+ssRNA', '-ssRNA'};
         
         if strcmpi(PopulationSetting,'Population') %Population mode plots the mean as well
-            plot(Time,MeanTotPosOutput,'r:','MarkerSize',5)
-            plot(Time,MeanTotNegOutput,'b:','MarkerSize',5)
+            TotPosMeanPlot = plot(Time,MeanTotPosOutput,'r:','LineWidth',2);
+            TotNegMeanPlot = plot(Time,MeanTotNegOutput,'b:','LineWidth',2);
+            LegendPlots = [TotPosPlot,TotNegPlot,TotPosMeanPlot,TotNegMeanPlot];
+            LegendLabels = {'Median +ssRNA','Median -ssRNA', 'Mean +ssRNA','Mean -ssRNA'};
+            
         elseif strcmpi(PopulationSetting,'Single Cell') %Only plot quantiles in Single-Cell mode
             plot(Time,UQTotPosOutput,'r--','LineWidth',0.75)
             plot(Time,LQTotPosOutput,'r--','LineWidth',0.75)
@@ -358,16 +395,21 @@ if strcmpi(PlotOutputs,'All')
             plot(Time,LQTotNegOutput,'b--','LineWidth',0.75)
         end
         
-        legend([TotPosPlot,TotNegPlot],'+ssRNA','-ssRNA')
+        legend(LegendPlots, LegendLabels)
         hold off
     elseif strcmpi(PlotType,'semilog') == 1
         TotPosPlot=semilogy(Time,max(MedianTotPosOutput,0.000001),'r-','LineWidth',2);
         hold on
         TotNegPlot=semilogy(Time,max(MedianTotNegOutput,0.000001),'b-','LineWidth',2);
+        LegendPlots = [TotPosPlot,TotNegPlot];
+        LegendLabels = {'+ssRNA', '-ssRNA'};
         
         if strcmpi(PopulationSetting,'Population') %Population mode plots the mean as well
-            semilogy(Time,max(MeanTotPosOutput,0.000001),'r:','MarkerSize',5)
-            semilogy(Time,max(MeanTotNegOutput,0.000001),'b:','MarkerSize',5)
+            TotPosMeanPlot = semilogy(Time,max(MeanTotPosOutput,0.000001),'r:','LineWidth',2);
+            TotNegMeanPlot = semilogy(Time,max(MeanTotNegOutput,0.000001),'b:','LineWidth',2);
+            LegendPlots = [TotPosPlot,TotNegPlot,TotPosMeanPlot,TotNegMeanPlot];
+            LegendLabels = {'Median +ssRNA','Median -ssRNA', 'Mean +ssRNA','Mean -ssRNA'};
+            
         elseif strcmpi(PopulationSetting,'Single Cell') %Only plot quantiles in Single-Cell mode
             semilogy(Time,max(UQTotPosOutput,0.000001),'r--','LineWidth',0.75)
             semilogy(Time,max(LQTotPosOutput,0.000001),'r--','LineWidth',0.75)
@@ -376,10 +418,10 @@ if strcmpi(PlotOutputs,'All')
             semilogy(Time,max(LQTotNegOutput,0.000001),'b--','LineWidth',0.75)
         end
         
-        legend([TotPosPlot,TotNegPlot],'+ssRNA','-ssRNA')
+        legend(LegendPlots, LegendLabels)
         hold off
     end
-    font_ax('Total +ssRNA vs Total -ssRNA','Time (h)',MedianTable.Properties.VariableUnits{i},10,'bold',2.0,0)
+    font_ax('Total +ssRNA vs Total -ssRNA','Time (h)','nM',10,'bold',2.0,0)
     
     for i = 59:60
         subplot(1,3,i-57)
@@ -389,23 +431,27 @@ if strcmpi(PlotOutputs,'All')
         Mean = table2array(MeanTable(:,{VarNames{i}}));
         if strcmpi(PlotType,'linear') == 1
             hold on
-            plot(Time,Median,'r-','LineWidth',2)
+            MedianPlot=plot(Time,Median,'r-','LineWidth',2);
             if strcmpi(PopulationSetting,'Population') %Population mode plots the mean as well
-                plot(Time,Mean,'r:','LineWidth',2)
+                MeanPlot=plot(Time,Mean,'r:','LineWidth',2);
+                legend([MedianPlot,MeanPlot],'Median', 'Mean')
+                
             elseif strcmpi(PopulationSetting,'Single Cell') %Only plot quantiles in Single-Cell mode
                 plot(Time,UQ,'r--','LineWidth',0.75)
                 plot(Time,LQ,'r--','LineWidth',0.75)
             end
             hold off
         elseif strcmpi(PlotType,'semilog') == 1
-            semilogy(Time,max(Median,0.000001),'r-','LineWidth',2)
+            MedianPlot=semilogy(Time,max(Median,0.000001),'r-','LineWidth',2);
             hold on
             if strcmpi(PopulationSetting,'Population') %Population mode plots the mean as well
-                semilogy(Time,max(Mean,0.000001),'r:','LineWidth',2)
+                MeanPlot=semilogy(Time,max(Mean,0.000001),'r:','LineWidth',2);
+                legend([MedianPlot,MeanPlot],'Median', 'Mean')
+                
             elseif strcmpi(PopulationSetting,'Single Cell') %Only plot quantiles in Single-Cell mode
-            end
                 semilogy(Time,max(UQ,0.000001),'r--','LineWidth',0.75)
                 semilogy(Time,max(LQ,0.000001),'r--','LineWidth',0.75)
+            end
             hold off
         end
         font_ax(sprintf('%s',VarNames{i}),'Time (h)',MedianTable.Properties.VariableUnits{i},10,'bold',2.0,0)
@@ -422,9 +468,11 @@ else
         figure
         if strcmpi(PlotType,'linear') == 1
             hold on
-            plot(Time,Median,'r-','LineWidth',2)
+            MedianPlot=plot(Time,Median,'r-','LineWidth',2);
             if strcmpi(PopulationSetting,'Population') %Population mode plots the mean as well
-                plot(Time,Mean,'r:','LineWidth',2)
+                MeanPlot=plot(Time,Mean,'r:','LineWidth',2);
+                legend([MedianPlot,MeanPlot],'Median', 'Mean')
+                
             elseif strcmpi(PopulationSetting,'Single Cell') %Only plot quantiles in Single-Cell mode
                 plot(Time,UQ,'r--','LineWidth',0.75)
                 plot(Time,LQ,'r--','LineWidth',0.75)
@@ -432,9 +480,11 @@ else
             hold off
         elseif strcmpi(PlotType,'semilog') == 1
             hold on
-            semilogy(Time,max(Median,0.000001),'r-','LineWidth',2)
+            MedianPlot=semilogy(Time,max(Median,0.000001),'r-','LineWidth',2);
             if strcmpi(PopulationSetting,'Population') %Population mode plots the mean as well
-                semilogy(Time,max(Mean,0.000001),'r:','LineWidth',0.75)
+                MeanPlot=semilogy(Time,max(Mean,0.000001),'r:','LineWidth',2);
+                legend([MedianPlot,MeanPlot],'Median', 'Mean')
+                
             elseif strcmpi(PopulationSetting,'Single Cell') %Only plot quantiles in Single-Cell mode
                 semilogy(Time,max(UQ,0.000001),'r--','LineWidth',0.75)
                 semilogy(Time,max(LQ,0.000001),'r--','LineWidth',0.75)

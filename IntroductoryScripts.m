@@ -1,10 +1,8 @@
 %% I. Running basic infection simulations
 
 %Simulate an infection at a multiplicity of infection (MOI) of 5
-%Without additional options, this will simulate a single cell infection for 16 hours 
-%with both host anti-viral interferon response and viral antagonism of host response.
-%The model will output the median, mean, 95th quantile, and 5th quantile of 100
-%simulations as well as species plots showing the median and 90% CI of the simulations. For more details see methods.
+%Without additional options, this will simulate a single cell infection for 16 hours with both host anti-viral interferon response and viral antagonism of host response.
+%The model will output the median, mean, 95th quantile, and 5th quantile of 100 simulations as well as species plots showing the median and 90% CI of the simulations. For more details see methods.
 
 [medianResultsTable,meanResultsTable,Q95ResultsTable,Q05ResultsTable, ~ ]= CVB3ODEEval(5);
 
@@ -78,12 +76,12 @@ summary(medianResultsTable)
 %Generate sensitivity heatmap without base model plots
 [medianResultsTable,meanResultsTable,Q95ResultsTable,Q05ResultsTable, sensitivityTable] = CVB3ODEEval(10,'MaxTime',8,'SensitivityAnalysis','on','PlotResults','off');
 
-%Assess model -ssRNA sensitivity (SensitivityAnalysisOutput = 'Minus RNA') to 10-fold changes in parameter values (ScalingFactor = 10).
-%Generate data for 5 orders of magnitude above and below base model parameter values (MaxScalingOrder = 5).
-[medianResultsTable,meanResultsTable,Q95ResultsTable,Q05ResultsTable, sensitivityTable] = CVB3ODEEval(10,'MaxTime',24,'PlotResults','off','SensitivityAnalysis','on','SensitivityAnalysisOutput','Minus RNA','ScalingFactor',10,'MaxScalingOrder',5);
+%Assess model -ssRNA sensitivity (SensitivityAnalysisOutput = 'Minus RNA') to 2-fold changes in parameter values (ScalingFactor = 2).
+%Generate data for 2 orders of magnitude above and below base model parameter values (MaxScalingOrder = 2).
+[medianResultsTable,meanResultsTable,Q95ResultsTable,Q05ResultsTable, sensitivityTable] = CVB3ODEEval(10,'MaxTime',24,'PlotResults','off','SensitivityAnalysis','on','SensitivityAnalysisOutput','Minus RNA','ScalingFactor',2,'MaxScalingOrder',2);
 
 %Export heatmap data to csv file.
-[medianResultsTable,meanResultsTable,Q95ResultsTable,Q05ResultsTable, sensitivityTable] = CVB3ODEEval(10,'MaxTime',24,'PlotResults','off','SensitivityAnalysis','on','SensitivityAnalysisOutput','Minus RNA','ScalingFactor',10,'MaxScalingOrder',2,...
+[medianResultsTable,meanResultsTable,Q95ResultsTable,Q05ResultsTable, sensitivityTable] = CVB3ODEEval(10,'MaxTime',24,'PlotResults','off','SensitivityAnalysis','on','SensitivityAnalysisOutput','Minus RNA','ScalingFactor',2,'MaxScalingOrder',2,...
 'ExportData','on','DataFile','mySensitivityAnalysis.csv');
 
 %% V. Custom Plotting
@@ -95,7 +93,7 @@ summary(medianResultsTable)
 %Variable names available for plotting can be found by looking that the resultsTable variable names property.
 medianResultsTable.Properties.VariableNames
 %Plots will default to semilog scale.
-CVB3ODEPlots(medianResultsTable,meanResultsTable,Q95ResultsTable,Q05ResultsTable,'PlotOutputs',{'Total +ssRNA' 'Virions'});
+CVB3ODEPlots(medianResultsTable,Q95ResultsTable,Q05ResultsTable,meanResultsTable,'PlotOutputs',{'Total +ssRNA' 'Virions'});
 
 %Plots can be generated on a linear scale using the 'PlotType' option
-CVB3ODEPlots(medianResultsTable,meanResultsTable,Q95ResultsTable,Q05ResultsTable,'PlotOutputs',{'Total +ssRNA' 'Virions'},'PlotType','linear');
+CVB3ODEPlots(medianResultsTable,Q95ResultsTable,Q05ResultsTable,meanResultsTable,'PlotOutputs',{'Total +ssRNA' 'Virions'},'PlotType','linear');
